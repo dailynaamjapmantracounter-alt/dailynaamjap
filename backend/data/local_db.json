@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "google_id": null,
+      "email": "guest_1792319370123@bhaktiapp.local",
+      "name": "Atithi Bhakta",
+      "avatar_url": "",
+      "country": "India",
+      "state": "Rajasthan",
+      "gender": "Male",
+      "total_japa": 0,
+      "malas_completed": 0,
+      "created_at": "2026-10-18T10:29:30.123Z"
+    },
+    {
+      "id": 2,
+      "google_id": null,
+      "email": "dinesh@bhaktiapp.com",
+      "name": "Dinesh Swami",
+      "avatar_url": "",
+      "country": "India",
+      "state": "Rajasthan",
+      "gender": "Male",
+      "total_japa": 1080,
+      "malas_completed": 10,
+      "created_at": "2026-10-18T10:30:05.427Z",
+      "updated_at": "2026-10-18T10:30:26.390Z"
+    }
+  ],
+  "diary_entries": [],
+  "daily_streaks": []
+}
