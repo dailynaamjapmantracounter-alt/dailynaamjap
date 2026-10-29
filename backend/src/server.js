@@ -14,6 +14,20 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Database initialization middleware for serverless/local
+let dbInitialized = false;
+app.use(async (req, res, next) => {
+  if (!dbInitialized) {
+    try {
+      await initDb();
+      dbInitialized = true;
+    } catch (err) {
+      console.error('Database connection error:', err);
+    }
+  }
+  next();
+});
+
 // Health Check API
 app.get('/', (req, res) => {
   res.json({
@@ -23,28 +37,21 @@ app.get('/', (req, res) => {
   });
 });
 
-// Ensure DB is connected on serverless requests (Vercel)
-app.use(async (req, res, next) => {
-  try {
-    await initDb();
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 
-// Initialize DB and start server locally (ignored on Vercel)
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-  initDb().then(() => {
+// Initialize DB and start server (Only in local standalone environment)
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  async function startServer() {
+    await initDb();
+    dbInitialized = true;
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Bhakti App Backend running on: http://localhost:${PORT}`);
       console.log(`📱 Local Network Access: http://127.0.0.1:${PORT}`);
     });
-  });
+  }
+  startServer();
 }
 
 export default app;
